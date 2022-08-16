@@ -18,4 +18,11 @@ export default () => ({
     host: process.env.REDIS_HOST,
     port: +process.env.REDIS_PORT,
   },
+  s3: {
+    accessKeyId: process.env.S3_ACCESSKEYID,
+    secretAccessKey: process.env.S3_SECRETACCESSKEY,
+    region: process.env.S3_REGION,
+    bucketForJson: process.env.S3_BUCKET_NAME,
+    endpoint: process.env.S3_ENDPOINT,
+  },
 });

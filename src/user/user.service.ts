@@ -19,8 +19,14 @@ export class UserService {
     return this.usersRepository.save({ ...registrationDto, password: hashPassword });
   }
 
+  public async findUserById(userId: string): Promise<UserEntity> {
+    const user = await this.usersRepository.findOneBy({ id: userId });
+
+    return this.composeUserEntity(user);
+  }
+
   public async findUserByMail(mail: string): Promise<User> {
-    return this.usersRepository.findOne({ where: { mail } });
+    return this.usersRepository.findOneBy({ mail });
   }
 
   public async isPasswordMatches(password: string, hashedPassword: string): Promise<boolean> {

@@ -2,6 +2,7 @@ import { Body, Controller, Post, UseGuards, Headers } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '../user/decorator/user.decorator';
 import { UserEntity } from '../user/entity/user.entity';
+import { SWAGGER_AUTH_SUMMARY } from './auth.constants';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';
 import { LogoutDto } from './dto/logout.dto';
@@ -14,20 +15,20 @@ import { MailUniqueGuard } from './guards/mail-unique.guard';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @ApiOperation({ summary: 'registration' })
+  @ApiOperation({ summary: SWAGGER_AUTH_SUMMARY.REGISTRATION })
   @UseGuards(MailUniqueGuard)
   @Post('registration')
   public async registration(@Body() registrationDto: RegistrationDto, @Headers() headers: string): Promise<UserEntity> {
     return this.authService.registration(registrationDto, headers['user-agent']);
   }
 
-  @ApiOperation({ summary: 'login' })
+  @ApiOperation({ summary: SWAGGER_AUTH_SUMMARY.LOGIN })
   @Post('login')
   public async login(@Body() loginDto: LoginDto, @Headers() headers: string): Promise<UserEntity> {
     return this.authService.login(loginDto, headers['user-agent']);
   }
 
-  @ApiOperation({ summary: 'logout' })
+  @ApiOperation({ summary: SWAGGER_AUTH_SUMMARY.LOGOUT })
   @ApiBearerAuth()
   @UseGuards(JwtAuthGuard)
   @Post('logout')

@@ -9,3 +9,9 @@ export const AUTH_VALIDATION_ERRORS = {
   ADMIN_AUTHORIZATION_ERROR: 'Admin not authorized',
   PASSWORD_ERROR_LENGTH: 'Not less than 6 and not more than 30',
 };
+
+export const SWAGGER_AUTH_SUMMARY = {
+  REGISTRATION: 'registration',
+  LOGIN: 'login',
+  LOGOUT: 'logout',
+};

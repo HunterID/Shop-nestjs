@@ -2,39 +2,47 @@ import { BadRequestException, Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { UserEntity } from '../../user/entity/user.entity';
 import { User } from '../../user/models/user.model';
+import { UserService } from '../../user/user.service';
 import { AuthCacheService } from '../auth-cache.service';
 import { AUTH_VALIDATION_ERRORS } from '../auth.constants';
 import { RefreshToken } from './model/refreshToken.model';
 
 @Injectable()
 export class TokenService {
+  private readonly accessTokenSecret: string;
+  private readonly refreshTokenSecret: string;
+  private readonly accessExpirationTime: number;
+  private readonly refreshExpirationTime: number;
+
   constructor(
     @InjectRepository(RefreshToken)
     private readonly refreshRepository: Repository<RefreshToken>,
     private readonly jwtService: JwtService,
     private readonly configService: ConfigService,
+    private readonly userService: UserService,
     private readonly authCacheService: AuthCacheService,
-  ) {}
+  ) {
+    this.accessTokenSecret = this.configService.get('jwt.accessTokenSecret');
+    this.refreshTokenSecret = this.configService.get('jwt.refreshTokenSecret');
+    this.accessExpirationTime = this.configService.get('jwt.accessTokenExpirationTime');
+    this.refreshExpirationTime = this.configService.get('jwt.refreshTokenExpirationTime');
+  }
 
   public composeAccessToken(userId: string): Promise<string> {
-    const { accessTokenSecret, accessTokenExpirationTime } = this.configService.get('jwt');
     const accessTokenOptions = {
-      secret: accessTokenSecret,
-      expiresIn: +accessTokenExpirationTime,
+      secret: this.accessTokenSecret,
+      expiresIn: this.accessExpirationTime,
     };
 
     return this.jwtService.signAsync({ userId }, accessTokenOptions);
   }
 
   public composeRefreshToken(userId: string): Promise<string> {
-    const { refreshTokenSecret, refreshTokenExpirationTime } = this.configService.get('jwt');
     const refreshTokenOptions = {
-      secret: refreshTokenSecret,
-      expiresIn: +refreshTokenExpirationTime,
+      secret: this.refreshTokenSecret,
+      expiresIn: this.refreshExpirationTime,
     };
 
     return this.jwtService.signAsync({ userId }, refreshTokenOptions);
@@ -52,6 +60,7 @@ export class TokenService {
 
   public async verifyToken(token: string): Promise<{ userId: string }> {
     const { accessTokenSecret } = this.configService.get('jwt');
+
     return this.jwtService.verifyAsync(token, accessTokenSecret);
   }
 
@@ -79,7 +88,7 @@ export class TokenService {
     const { id: userId } = user;
     const tokens = await this.composeTokens(userId);
 
-    const userEntity = plainToInstance(UserEntity, { ...user, ...tokens });
+    const userEntity = await this.userService.composeUserEntity({ ...user, ...tokens });
 
     await Promise.all([
       this.authCacheService.saveAccessTokenToRedis(userId, userEntity.accessToken),

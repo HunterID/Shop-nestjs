@@ -2,13 +2,14 @@ import { Body, Controller, Put } from '@nestjs/common';
 import { TokenService } from './token.service';
 import { ApiOperation, ApiTags } from '@nestjs/swagger';
 import { UpdateTokenDto } from './dto/token.dto';
+import { SWAGGER_TOKEN_SUMMARY } from './token.constants';
 
 @ApiTags('auth')
 @Controller('auth/token')
 export class TokenController {
   constructor(private readonly tokenService: TokenService) {}
 
-  @ApiOperation({ summary: 'Update access token' })
+  @ApiOperation({ summary: SWAGGER_TOKEN_SUMMARY.UPDATE_ACCESS_TOKEN })
   @Put('update-access')
   public async updateAccessToken(@Body() accessUpdateTokenDto: UpdateTokenDto): Promise<{
     accessToken: string;
@@ -16,7 +17,7 @@ export class TokenController {
     return this.tokenService.updateAccessToken(accessUpdateTokenDto.refreshToken);
   }
 
-  @ApiOperation({ summary: 'Update refresh token' })
+  @ApiOperation({ summary: SWAGGER_TOKEN_SUMMARY.UPDATE_REFRESH_TOKEN })
   @Put('update-refresh')
   public async updateRefreshToken(
     @Body() refreshUpdateTokenDto: UpdateTokenDto,
