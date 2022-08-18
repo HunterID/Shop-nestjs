@@ -2,9 +2,7 @@ import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/
 import { RegistrationDto } from './dto/registration.dto';
 import { UserEntity } from '../user/entity/user.entity';
 import { UserService } from '../user/user.service';
-import { User } from '../user/models/user.model';
 import { TokenService } from './token/token.service';
-import { jwtTokensInterface } from './interfaces/tokens.interfaces';
 import { AuthCacheService } from './auth-cache.service';
 import { LoginDto } from './dto/login.dto';
 import { AUTH_VALIDATION_ERRORS } from './auth.constants';
@@ -21,7 +19,7 @@ export class AuthService {
     const user = await this.usersService.createUser(registrationDto);
     const tokens = await this.tokenService.composeTokens(user.id);
 
-    await this.saveUserTokens(user, tokens, userAgent);
+    await this.tokenService.saveUserTokens(user, tokens, userAgent);
 
     return this.usersService.composeUserEntity({ ...user, ...tokens });
   }
@@ -40,7 +38,7 @@ export class AuthService {
     }
 
     const tokens = await this.tokenService.composeTokens(user.id);
-    await this.saveUserTokens(user, tokens, userAgent);
+    await this.tokenService.saveUserTokens(user, tokens, userAgent);
 
     return this.usersService.composeUserEntity({ ...user, ...tokens });
   }
@@ -54,14 +52,5 @@ export class AuthService {
     } catch (error) {
       throw new UnauthorizedException();
     }
-  }
-
-  private async saveUserTokens(user: User, tokens: jwtTokensInterface, userAgent: string): Promise<void> {
-    const { accessToken, refreshToken } = tokens;
-
-    await Promise.all([
-      this.tokenService.saveRefreshToken(refreshToken, user, userAgent),
-      this.authCacheService.saveAccessTokenToRedis(user.id, accessToken),
-    ]);
   }
 }

@@ -10,9 +10,9 @@ export class RedisService {
     return this.redisClient.multi();
   }
 
-  public exec(multi: Pipeline): Promise<any[]> {
+  public async exec(multi: Pipeline): Promise<void> {
     const client = multi || this.redisClient;
-    return client.exec();
+    await client.exec();
   }
 
   public sAdd(hash: string, value: string, multi?: Pipeline): Pipeline | Promise<number> {
@@ -25,7 +25,7 @@ export class RedisService {
     return client.srem(hash, setMember);
   }
 
-  public async sMembers(hash: string): Promise<string[]> {
+  public sMembers(hash: string): Promise<string[]> {
     return this.redisClient.smembers(hash);
   }
 

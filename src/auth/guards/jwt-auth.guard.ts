@@ -9,11 +9,11 @@ export class JwtAuthGuard implements CanActivate {
   constructor(private tokenService: TokenService, private authCacheService: AuthCacheService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
-    const request = context.switchToHttp().getRequest();
-    const authHeader = request.headers.authorization;
-    const accessToken = authHeader.split(' ')[1];
-
     try {
+      const request = context.switchToHttp().getRequest();
+      const authHeader = request.headers.authorization;
+      const accessToken = authHeader.split(' ')[1];
+
       const { userId } = await this.tokenService.verifyToken(accessToken);
 
       await this.authCacheService.isAccessTokenExist(userId, accessToken);

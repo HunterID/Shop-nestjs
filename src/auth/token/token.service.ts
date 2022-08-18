@@ -7,6 +7,7 @@ import { User } from '../../user/models/user.model';
 import { UserService } from '../../user/user.service';
 import { AuthCacheService } from '../auth-cache.service';
 import { AUTH_VALIDATION_ERRORS } from '../auth.constants';
+import { jwtTokensInterface } from '../interfaces/tokens.interfaces';
 import { RefreshToken } from './model/refreshToken.model';
 
 @Injectable()
@@ -110,5 +111,14 @@ export class TokenService {
 
   public async removeRefreshToken(refreshToken: string): Promise<void> {
     await this.refreshRepository.delete({ refreshToken });
+  }
+
+  public async saveUserTokens(user: User, tokens: jwtTokensInterface, userAgent: string): Promise<void> {
+    const { accessToken, refreshToken } = tokens;
+
+    await Promise.all([
+      this.saveRefreshToken(refreshToken, user, userAgent),
+      this.authCacheService.saveAccessTokenToRedis(user.id, accessToken),
+    ]);
   }
 }

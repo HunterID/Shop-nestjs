@@ -4,10 +4,11 @@ import { AuthService } from './auth.service';
 import { AuthController } from './auth.controller';
 import { TokenModule } from './token/token.module';
 import { AuthCacheService } from './auth-cache.service';
+import { GoogleAuthModule } from './google/google.module';
 
 @Global()
 @Module({
-  imports: [UserModule, TokenModule],
+  imports: [UserModule, TokenModule, GoogleAuthModule],
   providers: [AuthService, AuthCacheService],
   exports: [TokenModule, AuthCacheService],
   controllers: [AuthController],

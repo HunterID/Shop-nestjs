@@ -7,6 +7,7 @@ import { User } from './models/user.model';
 import { PASSWORD_SALT_ROUNDS } from './user.constants';
 import { RegistrationDto } from '../auth/dto/registration.dto';
 import { UserEntity } from './entity/user.entity';
+import { UserGoogleEntity } from '../auth/google/entity/googleUser.entity';
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,10 @@ export class UserService {
     const user = await this.usersRepository.findOneBy({ id: userId });
 
     return this.composeUserEntity(user);
+  }
+
+  public async createGoogleUser(userGoogleEntity: UserGoogleEntity): Promise<User> {
+    return this.usersRepository.save(userGoogleEntity);
   }
 
   public async findUserByMail(mail: string): Promise<User> {

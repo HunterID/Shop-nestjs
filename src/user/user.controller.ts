@@ -1,4 +1,5 @@
-import { Controller, Get, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from './decorator/user.decorator';
@@ -18,4 +19,9 @@ export class UserController {
   public async getUserProfile(@User('userId') userId: string): Promise<UserEntity> {
     return this.usersService.findUserById(userId);
   }
+
+  // @ApiOperation({ summary: '' })
+  // @Post('upload')
+  // @UseInterceptors(FileInterceptor('image'))
+  // public async uploadImage(@UploadedFile() file: Express.Multer.File);
 }

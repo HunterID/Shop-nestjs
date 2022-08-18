@@ -16,6 +16,12 @@ export class User extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   id: string;
 
+  @Column({ type: 'text', nullable: true })
+  googleId: string;
+
+  @Column({ type: 'text', nullable: true })
+  facebookId: string;
+
   @Column({ type: String })
   firstName: string;
 
@@ -28,10 +34,10 @@ export class User extends BaseEntity {
   @Column({ type: String, unique: true })
   mail: string;
 
-  @Column({ type: 'text', nullable: false })
+  @Column({ type: 'text', nullable: true })
   avatar: string;
 
-  @Column({ type: 'text', nullable: false, unique: true })
+  @Column({ type: 'text', nullable: true, unique: true })
   stripeCustomerId: string;
 
   @CreateDateColumn({ type: 'timestamptz', select: false })

@@ -11,10 +11,8 @@ const redisFactory = async (configService: ConfigService): Promise<RedisClient> 
   return new Redis({ port, host });
 };
 
-export const redisProviders: Provider[] = [
-  {
-    useFactory: redisFactory,
-    inject: [ConfigService],
-    provide: REDIS_CLIENT,
-  },
-];
+export const redisProviders: Provider = {
+  useFactory: redisFactory,
+  inject: [ConfigService],
+  provide: REDIS_CLIENT,
+};

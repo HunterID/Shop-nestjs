@@ -25,4 +25,9 @@ export default () => ({
     bucketForJson: process.env.S3_BUCKET_NAME,
     endpoint: process.env.S3_ENDPOINT,
   },
+  google: {
+    googleId: process.env.GOOGLE_ID,
+    googleSecret: process.env.GOOGLE_SECRET,
+    googleRedirect: process.env.GOOGLE_REDIRECT,
+  },
 });
