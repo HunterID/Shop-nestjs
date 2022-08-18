@@ -20,8 +20,10 @@ export class UserController {
     return this.usersService.findUserById(userId);
   }
 
-  // @ApiOperation({ summary: '' })
-  // @Post('upload')
-  // @UseInterceptors(FileInterceptor('image'))
-  // public async uploadImage(@UploadedFile() file: Express.Multer.File);
+  @ApiOperation({ summary: '' })
+  @Post('upload')
+  @UseInterceptors(FileInterceptor('image'))
+  public async uploadImage(@UploadedFile() file: Express.Multer.File) {
+    return null;
+  }
 }
