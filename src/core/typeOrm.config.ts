@@ -16,7 +16,7 @@ export class TypeOrmConfigService implements TypeOrmOptionsFactory {
       database: this.configService.get('postgres.database'),
       synchronize: false,
       logging: false,
-      migrationsRun: true,
+      migrationsRun: false,
       entities: [TYPE_ORM_CONFIG.PATH_TO_ENTITIES],
       migrations: [TYPE_ORM_CONFIG.PATH_TO_MIGRATIONS],
     };

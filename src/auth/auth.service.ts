@@ -1,6 +1,6 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { RegistrationDto } from './dto/registration.dto';
-import { UserEntity } from '../user/entity/user.entity';
+import { UserEntity } from '../user/entities/user.entity';
 import { UserService } from '../user/user.service';
 import { TokenService } from './token/token.service';
 import { AuthCacheService } from './auth-cache.service';
