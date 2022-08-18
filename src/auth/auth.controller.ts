@@ -1,7 +1,7 @@
 import { Body, Controller, Post, UseGuards, Headers } from '@nestjs/common';
 import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { User } from '../user/decorator/user.decorator';
-import { UserEntity } from '../user/entity/user.entity';
+import { UserEntity } from '../user/entities/user.entity';
 import { SWAGGER_AUTH_SUMMARY } from './auth.constants';
 import { AuthService } from './auth.service';
 import { LoginDto } from './dto/login.dto';

@@ -15,6 +15,9 @@ export class UserEntity {
   lastName: string;
 
   @Expose()
+  avatar: string;
+
+  @Expose()
   accessToken: string;
 
   @Expose()
