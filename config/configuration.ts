@@ -28,6 +28,5 @@ export default () => ({
   google: {
     googleId: process.env.GOOGLE_ID,
     googleSecret: process.env.GOOGLE_SECRET,
-    googleRedirect: process.env.GOOGLE_REDIRECT,
   },
 });
