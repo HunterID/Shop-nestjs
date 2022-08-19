@@ -29,4 +29,11 @@ export default () => ({
     googleId: process.env.GOOGLE_ID,
     googleSecret: process.env.GOOGLE_SECRET,
   },
+  mail: {
+    mail: process.env.MAIL_USERNAME,
+    mailSender: process.env.MAIL_SENDER_USERNAME,
+    mailPassword: process.env.MAIL_PASSWORD,
+    mailPort: process.env.MAIL_PORT,
+    mailHost: process.env.MAIL_HOST,
+  },
 });

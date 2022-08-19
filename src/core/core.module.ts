@@ -4,6 +4,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { TypeOrmConfigService } from './typeOrm.config';
 import configuration from '../../config/configuration';
 import { RedisModule } from './redis/redis.module';
+import { MailModule } from './mail/mail.module';
 
 @Global()
 @Module({
@@ -13,6 +14,7 @@ import { RedisModule } from './redis/redis.module';
       useClass: TypeOrmConfigService,
     }),
     RedisModule,
+    MailModule,
   ],
   providers: [],
   exports: [RedisModule],
