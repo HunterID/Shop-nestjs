@@ -26,6 +26,14 @@ export class UserService {
     return this.findUserById(userId);
   }
 
+  public async changePassword(password: string, userId: string): Promise<UserEntity> {
+    const [hashPassword, user] = await Promise.all([this.hashedPassword(password), this.findUserById(userId)]);
+
+    await this.usersRepository.update({ id: userId }, { password: hashPassword });
+
+    return user;
+  }
+
   public async findUserById(userId: string): Promise<UserEntity> {
     const user = await this.usersRepository.findOneBy({ id: userId });
 

@@ -10,9 +10,11 @@ export class GoogleAuthService {
 
   public async signInWithGoogle(userGoogleEntity: UserGoogleEntity, userAgent: string): Promise<UserEntity> {
     const user = await this.userService.findUserByMail(userGoogleEntity.mail);
+
     if (!user) {
       return this.handleRegisteredUser(userGoogleEntity, userAgent);
     }
+
     const tokens = await this.tokenService.composeTokens(user.id);
 
     return this.userService.composeUserEntity({ ...user, ...tokens });

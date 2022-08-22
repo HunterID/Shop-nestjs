@@ -1,8 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsNotEmpty, IsString, Length, IsEmail } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { AUTH_VALIDATION_ERRORS } from '../auth.constants';
 
-export class LoginDto {
+export class ForgotPasswordDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
@@ -10,8 +10,7 @@ export class LoginDto {
   readonly mail: string;
 
   @ApiProperty()
+  @IsOptional()
   @IsString()
-  @IsNotEmpty()
-  @Length(6, 30, { message: AUTH_VALIDATION_ERRORS.PASSWORD_ERROR_LENGTH })
-  readonly password: string;
+  readonly code?: string;
 }

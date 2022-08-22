@@ -1,8 +1,8 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import { S3 } from 'aws-sdk';
+import { ConfigService } from '@nestjs/config';
 import { plainToInstance } from 'class-transformer';
-import { AvatarEntity } from './entity/avatar.entity';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import { ImageEntity } from './entity/image.entity';
 import { IMAGE_VALIDATION_ERRORS, S3_CLIENT } from './multer.constants';
 
 @Injectable()
@@ -25,7 +25,7 @@ export class MulterStorageService {
       if (!uploadImagesS3) {
         return cb(new BadRequestException(IMAGE_VALIDATION_ERRORS.IMAGE_UPLOAD_ERRORS));
       }
-      const composeImage = plainToInstance(AvatarEntity, uploadImagesS3);
+      const composeImage = plainToInstance(ImageEntity, uploadImagesS3);
 
       return cb(null, composeImage);
     } else {

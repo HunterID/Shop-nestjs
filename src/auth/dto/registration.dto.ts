@@ -16,7 +16,7 @@ export class RegistrationDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @IsEmail({}, { message: AUTH_VALIDATION_ERRORS.EMAIL_INCORRECT })
+  @IsEmail({}, { message: AUTH_VALIDATION_ERRORS.MAIL_INCORRECT })
   readonly mail: string;
 
   @ApiProperty()

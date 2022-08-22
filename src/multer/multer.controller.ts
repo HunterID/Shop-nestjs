@@ -1,6 +1,6 @@
 import { Controller, Post, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiConsumes, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 import { User } from '../user/decorator/user.decorator';
 import { UserEntity } from '../user/entities/user.entity';
@@ -16,6 +16,10 @@ export class MulterController {
   constructor(private readonly userService: UserService) {}
 
   @ApiOperation({ summary: SWAGGER_UPLOAD_SUMMARY.UPLOAD_AVATAR })
+  @ApiCreatedResponse({
+    type: UserEntity,
+  })
+  @ApiConsumes('multipart/form-data')
   @Post('upload/avatar')
   @UseInterceptors(FileInterceptor('image'))
   public async uploadImage(@UploadedFile() file: fileInterface, @User('userId') userId: string): Promise<UserEntity> {
