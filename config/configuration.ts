@@ -29,6 +29,10 @@ export default () => ({
     googleId: process.env.GOOGLE_ID,
     googleSecret: process.env.GOOGLE_SECRET,
   },
+  facebook: {
+    facebookId: process.env.FACEBOOK_ID,
+    facebookSecret: process.env.FACEBOOK_SECRET,
+  },
   mail: {
     mail: process.env.MAIL_USERNAME,
     mailSender: process.env.MAIL_SENDER_USERNAME,
