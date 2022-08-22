@@ -1,4 +1,4 @@
-import fs from 'fs';
+import { promises as fs } from 'fs';
 import handlebars from 'handlebars';
 import * as nodemailer from 'nodemailer';
 import { Inject, Injectable } from '@nestjs/common';
@@ -16,15 +16,15 @@ export class MailService {
     this.mailSender = this.configService.get('mail').mailSender;
   }
 
-  public async sendVerificationMail(userMail: string, code: number): Promise<void> {
+  public async sendVerificationMail(userMail: string, code: string): Promise<void> {
     const htmlToSend = await this.handlebarsHTML(userMail, code);
     const mailOptions = this.getMailOptions(userMail, htmlToSend);
 
     await this.mailClient.sendMail(mailOptions);
   }
 
-  private async handlebarsHTML(userEmail: string, code: number): Promise<string> {
-    const mailTemplateSource = await fs.promises.readFile(PATH_TO_HBS, 'utf-8');
+  private async handlebarsHTML(userEmail: string, code: string): Promise<string> {
+    const mailTemplateSource = await fs.readFile(PATH_TO_HBS, 'utf-8');
     const template = handlebars.compile(mailTemplateSource);
 
     return template({ userEmail: `${userEmail}`, code: `${code}` });

@@ -49,10 +49,7 @@ export class TokenService {
     return this.jwtService.signAsync({ userId }, refreshTokenOptions);
   }
 
-  public async composeTokens(userId: string): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  public async composeTokens(userId: string): Promise<jwtTokensInterface> {
     return {
       accessToken: await this.composeAccessToken(userId),
       refreshToken: await this.composeRefreshToken(userId),
@@ -81,10 +78,7 @@ export class TokenService {
     return { accessToken: accessToken };
   }
 
-  public async updateRefreshToken(refreshToken: string): Promise<{
-    accessToken: string;
-    refreshToken: string;
-  }> {
+  public async updateRefreshToken(refreshToken: string): Promise<jwtTokensInterface> {
     const { user } = await this.findAndVerifyToken(refreshToken);
     const { id: userId } = user;
     const tokens = await this.composeTokens(userId);

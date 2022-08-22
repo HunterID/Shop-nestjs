@@ -2,7 +2,7 @@ version: '3.8'
 services:
   postgres_strapi:
     image: postgres:alpine
-    container_name: postgres
+    container_name: postgres -> postgres-shop
     volumes:
       - ./.docker/postgres:/data/db
     ports:
