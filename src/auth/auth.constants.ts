@@ -1,12 +1,17 @@
-export const USER_TOKEN = 'user_token';
+export const REDIS_CONSTANTS = {
+  USER_TOKEN: 'user_token',
+  USER_CODE: 'user_code',
+  CODE_EXPIRATION_TIME: 1800,
+};
 
 export const AUTH_VALIDATION_ERRORS = {
-  EMAIL_ALREADY_EXISTS: 'Email already exists',
-  EMAIL_INCORRECT: 'Incorrect mail',
+  MAIL_ALREADY_EXISTS: 'Mail already exists',
+  USER_NOT_FOUND: 'User not found',
+  MAIL_INCORRECT: 'Incorrect mail',
+  CODE_INCORRECT: 'Incorrect code',
   WRONG_CREDENTIALS_PROVIDED: 'Wrong credentials provided',
   TOKEN_NOT_FOUND: 'Token not found',
   AUTHORIZATION_ERROR: 'User not authorized',
-  ADMIN_AUTHORIZATION_ERROR: 'Admin not authorized',
   PASSWORD_ERROR_LENGTH: 'Not less than 6 and not more than 30',
 };
 
@@ -14,4 +19,6 @@ export const SWAGGER_AUTH_SUMMARY = {
   REGISTRATION: 'registration',
   LOGIN: 'login',
   LOGOUT: 'logout',
+  FORGOT_PASSWORD: 'forgot password',
+  REVIEW_CODE: 'review code',
 };

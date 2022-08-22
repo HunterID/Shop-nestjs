@@ -6,7 +6,7 @@ import { Repository } from 'typeorm';
 import { User } from './models/user.model';
 import { PASSWORD_SALT_ROUNDS } from './user.constants';
 import { RegistrationDto } from '../auth/dto/registration.dto';
-import { UserEntity } from './entity/user.entity';
+import { UserEntity } from './entities/user.entity';
 import { UserGoogleEntity } from '../auth/google/entity/googleUser.entity';
 
 @Injectable()
@@ -18,6 +18,20 @@ export class UserService {
     const hashPassword = await this.hashedPassword(password);
 
     return this.usersRepository.save({ ...registrationDto, password: hashPassword });
+  }
+
+  public async saveUserAvatar(avatarLocation: string, userId: string): Promise<UserEntity> {
+    await this.usersRepository.update({ id: userId }, { avatar: avatarLocation });
+
+    return this.findUserById(userId);
+  }
+
+  public async changePassword(password: string, userId: string): Promise<UserEntity> {
+    const [hashPassword, user] = await Promise.all([this.hashedPassword(password), this.findUserById(userId)]);
+
+    await this.usersRepository.update({ id: userId }, { password: hashPassword });
+
+    return user;
   }
 
   public async findUserById(userId: string): Promise<UserEntity> {
@@ -38,11 +52,11 @@ export class UserService {
     return bcrypt.compare(password, hashedPassword);
   }
 
-  private async hashedPassword(password: string): Promise<string> {
-    return bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
-  }
-
   public async composeUserEntity(user: Partial<UserEntity>): Promise<UserEntity> {
     return plainToInstance(UserEntity, user);
+  }
+
+  private async hashedPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, PASSWORD_SALT_ROUNDS);
   }
 }

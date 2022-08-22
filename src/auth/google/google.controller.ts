@@ -1,6 +1,6 @@
 import { Controller, Post, UseGuards, Headers } from '@nestjs/common';
-import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
-import { UserEntity } from '../../user/entity/user.entity';
+import { ApiBearerAuth, ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import { UserEntity } from '../../user/entities/user.entity';
 import { GoogleUser } from './decorator/google.decorator';
 import { UserGoogleEntity } from './entity/googleUser.entity';
 import { SWAGGER_GOOGLE_AUTH_SUMMARY } from './google.constants';
@@ -13,6 +13,9 @@ export class GoogleAuthController {
   constructor(private readonly googleAuthService: GoogleAuthService) {}
 
   @ApiOperation({ summary: SWAGGER_GOOGLE_AUTH_SUMMARY.GOOGLE_LOGIN })
+  @ApiCreatedResponse({
+    type: UserEntity,
+  })
   @ApiBearerAuth()
   @UseGuards(GoogleJwtAuthGuard)
   @Post('google/login')

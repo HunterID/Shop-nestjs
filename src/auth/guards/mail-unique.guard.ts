@@ -19,7 +19,7 @@ export class MailUniqueGuard implements CanActivate {
     const user = await this.usersService.findUserByMail(mail);
 
     if (user) {
-      throw new BadRequestException(AUTH_VALIDATION_ERRORS.EMAIL_ALREADY_EXISTS);
+      throw new BadRequestException(AUTH_VALIDATION_ERRORS.MAIL_ALREADY_EXISTS);
     }
   }
 }

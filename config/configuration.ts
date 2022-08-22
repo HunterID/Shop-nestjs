@@ -22,12 +22,18 @@ export default () => ({
     accessKeyId: process.env.S3_ACCESSKEYID,
     secretAccessKey: process.env.S3_SECRETACCESSKEY,
     region: process.env.S3_REGION,
-    bucketForJson: process.env.S3_BUCKET_NAME,
+    bucketName: process.env.S3_BUCKET_NAME,
     endpoint: process.env.S3_ENDPOINT,
   },
   google: {
     googleId: process.env.GOOGLE_ID,
     googleSecret: process.env.GOOGLE_SECRET,
-    googleRedirect: process.env.GOOGLE_REDIRECT,
+  },
+  mail: {
+    mail: process.env.MAIL_USERNAME,
+    mailSender: process.env.MAIL_SENDER_USERNAME,
+    mailPassword: process.env.MAIL_PASSWORD,
+    mailPort: process.env.MAIL_PORT,
+    mailHost: process.env.MAIL_HOST,
   },
 });
